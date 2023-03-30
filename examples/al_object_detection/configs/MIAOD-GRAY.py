@@ -14,10 +14,10 @@ data = dict(
         ],
         img_prefix=[data_root ])
 )
-model = dict(bbox_head=dict(C=2))
+model = dict(bbox_head=dict(C=1))
 # The initial learning rate, momentum, weight decay can be changed here.
-optimizer = dict(type='SGD', lr=1e-6, momentum=0.9, weight_decay=0.0001)
-optimizer_config = dict(grad_clip=None)
+optimizer = dict(type='SGD', lr=1e-3, momentum=0.9, weight_decay=0.0001)
+optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 # The moment when the learning rate drops can be changed here.
 lr_config = dict(policy='step', step=[2])
 # The frequency of saving models can be changed here.
