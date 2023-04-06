@@ -1,0 +1,247 @@
+schema: '2.0'
+stages:
+  initial_selection:
+    cmd: python initial_select.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --labeled_next work_dirs/test/X_L_0.npy --unselected work_dirs/test/X_U_0.npy
+    deps:
+    - path: configs/MIAOD-GRAY.py
+      md5: a2c7c22ee32724257c77b0a3aa5b449a
+      size: 2351
+    outs:
+    - path: work_dirs/test/X_L_0.npy
+      md5: fa0f9a3684f56d7e78c46b2918672f32
+      size: 9848
+    - path: work_dirs/test/X_U_0.npy
+      md5: 374079385f56cb234d1487f3c71881a6
+      size: 9848
+  active_learning_training@0:
+    cmd: python cycle_train.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 0 --labeled work_dirs/test/X_L_0.npy --unselected work_dirs/test/X_U_0.npy
+      --model work_dirs/test/cycle_0.pth
+    deps:
+    - path: work_dirs/test/X_L_0.npy
+      md5: fa0f9a3684f56d7e78c46b2918672f32
+      size: 9848
+    - path: work_dirs/test/X_U_0.npy
+      md5: 374079385f56cb234d1487f3c71881a6
+      size: 9848
+    outs:
+    - path: work_dirs/test/cycle_0.pth
+      md5: 6a55a3928bd19321e980d4c0f76f4a67
+      size: 164722773
+  active_learning_selection@0:
+    cmd: python cycle_select.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 0 --model work_dirs/test/cycle_0.pth --labeled work_dirs/test/X_L_0.npy
+      --labeled_next work_dirs/test/X_L_1.npy --unselected work_dirs/test/X_U_1.npy
+    deps:
+    - path: work_dirs/test/X_L_0.npy
+      md5: fa0f9a3684f56d7e78c46b2918672f32
+      size: 9848
+    - path: work_dirs/test/cycle_0.pth
+      md5: 6a55a3928bd19321e980d4c0f76f4a67
+      size: 164722773
+    outs:
+    - path: work_dirs/test/X_L_1.npy
+      md5: 7e191a8e80d12aef6396b3135188ea1f
+      size: 14704
+    - path: work_dirs/test/X_U_1.npy
+      md5: 1dd6bc75287d92eff7a966f140ddee56
+      size: 14704
+  active_learning_training@1:
+    cmd: python cycle_train.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 1 --labeled work_dirs/test/X_L_1.npy --unselected work_dirs/test/X_U_1.npy
+      --model work_dirs/test/cycle_1.pth
+    deps:
+    - path: work_dirs/test/X_L_1.npy
+      md5: 7e191a8e80d12aef6396b3135188ea1f
+      size: 14704
+    - path: work_dirs/test/X_U_1.npy
+      md5: 1dd6bc75287d92eff7a966f140ddee56
+      size: 14704
+    outs:
+    - path: work_dirs/test/cycle_1.pth
+      md5: f4be807e4c2007b2303fee8e194ea102
+      size: 164722773
+  active_learning_selection@1:
+    cmd: python cycle_select.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 1 --model work_dirs/test/cycle_1.pth --labeled work_dirs/test/X_L_1.npy
+      --labeled_next work_dirs/test/X_L_2.npy --unselected work_dirs/test/X_U_2.npy
+    deps:
+    - path: work_dirs/test/X_L_1.npy
+      md5: 7e191a8e80d12aef6396b3135188ea1f
+      size: 14704
+    - path: work_dirs/test/cycle_1.pth
+      md5: f4be807e4c2007b2303fee8e194ea102
+      size: 164722773
+    outs:
+    - path: work_dirs/test/X_L_2.npy
+      md5: 81e3d8fefa3b97843b81126b09e553c0
+      size: 19560
+    - path: work_dirs/test/X_U_2.npy
+      md5: dd77de40ff8fec5e224fdd5593d9dd61
+      size: 19560
+  active_learning_training@2:
+    cmd: python cycle_train.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 2 --labeled work_dirs/test/X_L_2.npy --unselected work_dirs/test/X_U_2.npy
+      --model work_dirs/test/cycle_2.pth
+    deps:
+    - path: work_dirs/test/X_L_2.npy
+      md5: 81e3d8fefa3b97843b81126b09e553c0
+      size: 19560
+    - path: work_dirs/test/X_U_2.npy
+      md5: dd77de40ff8fec5e224fdd5593d9dd61
+      size: 19560
+    outs:
+    - path: work_dirs/test/cycle_2.pth
+      md5: 75ed2c5768c73ace7bdfc62384f602e2
+      size: 164722773
+  active_learning_selection@2:
+    cmd: python cycle_select.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 2 --model work_dirs/test/cycle_2.pth --labeled work_dirs/test/X_L_2.npy
+      --labeled_next work_dirs/test/X_L_3.npy --unselected work_dirs/test/X_U_3.npy
+    deps:
+    - path: work_dirs/test/X_L_2.npy
+      md5: 81e3d8fefa3b97843b81126b09e553c0
+      size: 19560
+    - path: work_dirs/test/cycle_2.pth
+      md5: 75ed2c5768c73ace7bdfc62384f602e2
+      size: 164722773
+    outs:
+    - path: work_dirs/test/X_L_3.npy
+      md5: 5148f6b22a4aae1ebd1371b31d4b6d73
+      size: 24416
+    - path: work_dirs/test/X_U_3.npy
+      md5: dc365a20b755b1a84f8fde83762051a1
+      size: 24416
+  active_learning_training@3:
+    cmd: python cycle_train.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 3 --labeled work_dirs/test/X_L_3.npy --unselected work_dirs/test/X_U_3.npy
+      --model work_dirs/test/cycle_3.pth
+    deps:
+    - path: work_dirs/test/X_L_3.npy
+      md5: 667983c04371c6f3c24f7abd2a189111
+      size: 24416
+    - path: work_dirs/test/X_U_3.npy
+      md5: c9fcffc45857813aff38d387d8c30c08
+      size: 24416
+    outs:
+    - path: work_dirs/test/cycle_3.pth
+      md5: 152b8f6d085cf413a230a0964203f7f8
+      size: 164722773
+  active_learning_selection@3:
+    cmd: python cycle_select.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 3 --model work_dirs/test/cycle_3.pth --labeled work_dirs/test/X_L_3.npy
+      --labeled_next work_dirs/test/X_L_4.npy --unselected work_dirs/test/X_U_4.npy
+    deps:
+    - path: work_dirs/test/X_L_3.npy
+      md5: 667983c04371c6f3c24f7abd2a189111
+      size: 24416
+    - path: work_dirs/test/cycle_3.pth
+      md5: 152b8f6d085cf413a230a0964203f7f8
+      size: 164722773
+    outs:
+    - path: work_dirs/test/X_L_4.npy
+      md5: ab75291330d47a7daa0cd156b144b714
+      size: 29272
+    - path: work_dirs/test/X_U_4.npy
+      md5: ab1d5d3b8cf919208a5cb3bdc6925f3c
+      size: 29272
+  active_learning_training@4:
+    cmd: python cycle_train.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 4 --labeled work_dirs/test/X_L_4.npy --unselected work_dirs/test/X_U_4.npy
+      --model work_dirs/test/cycle_4.pth
+    deps:
+    - path: work_dirs/test/X_L_4.npy
+      md5: ab75291330d47a7daa0cd156b144b714
+      size: 29272
+    - path: work_dirs/test/X_U_4.npy
+      md5: ab1d5d3b8cf919208a5cb3bdc6925f3c
+      size: 29272
+    outs:
+    - path: work_dirs/test/cycle_4.pth
+      md5: 883555eb665b3bd397713cd4812b9f70
+      size: 164722773
+  active_learning_selection@4:
+    cmd: python cycle_select.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 4 --model work_dirs/test/cycle_4.pth --labeled work_dirs/test/X_L_4.npy
+      --labeled_next work_dirs/test/X_L_5.npy --unselected work_dirs/test/X_U_5.npy
+    deps:
+    - path: work_dirs/test/X_L_4.npy
+      md5: ab75291330d47a7daa0cd156b144b714
+      size: 29272
+    - path: work_dirs/test/cycle_4.pth
+      md5: 883555eb665b3bd397713cd4812b9f70
+      size: 164722773
+    outs:
+    - path: work_dirs/test/X_L_5.npy
+      md5: 5b8d8257c632420b6733909ca4a5b77f
+      size: 34128
+    - path: work_dirs/test/X_U_5.npy
+      md5: 5bcaf21b746809f0b9b0183cd3bda984
+      size: 34128
+  active_learning_training@5:
+    cmd: python cycle_train.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 5 --labeled work_dirs/test/X_L_5.npy --unselected work_dirs/test/X_U_5.npy
+      --model work_dirs/test/cycle_5.pth
+    deps:
+    - path: work_dirs/test/X_L_5.npy
+      md5: 5b8d8257c632420b6733909ca4a5b77f
+      size: 34128
+    - path: work_dirs/test/X_U_5.npy
+      md5: 5bcaf21b746809f0b9b0183cd3bda984
+      size: 34128
+    outs:
+    - path: work_dirs/test/cycle_5.pth
+      md5: 425b51348f0d1c4cc7388ac7318ad555
+      size: 164722773
+  active_learning_selection@5:
+    cmd: python cycle_select.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 5 --model work_dirs/test/cycle_5.pth --labeled work_dirs/test/X_L_5.npy
+      --labeled_next work_dirs/test/X_L_6.npy --unselected work_dirs/test/X_U_6.npy
+    deps:
+    - path: work_dirs/test/X_L_5.npy
+      md5: 5b8d8257c632420b6733909ca4a5b77f
+      size: 34128
+    - path: work_dirs/test/cycle_5.pth
+      md5: 425b51348f0d1c4cc7388ac7318ad555
+      size: 164722773
+    outs:
+    - path: work_dirs/test/X_L_6.npy
+      md5: 4667f6dd07f989f0e4c6200b6c490f28
+      size: 38984
+    - path: work_dirs/test/X_U_6.npy
+      md5: a1997a31e8db28261ea87024c5a729fb
+      size: 38984
+  active_learning_training@6:
+    cmd: python cycle_train.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 6 --labeled work_dirs/test/X_L_6.npy --unselected work_dirs/test/X_U_6.npy
+      --model work_dirs/test/cycle_6.pth
+    deps:
+    - path: work_dirs/test/X_L_6.npy
+      md5: 4667f6dd07f989f0e4c6200b6c490f28
+      size: 38984
+    - path: work_dirs/test/X_U_6.npy
+      md5: a1997a31e8db28261ea87024c5a729fb
+      size: 38984
+    outs:
+    - path: work_dirs/test/cycle_6.pth
+      md5: 7d553c0c898bd800ec35cfad25d09a19
+      size: 164722773
+  active_learning_selection@6:
+    cmd: python cycle_select.py configs/MIAOD-GRAY.py --work_directory work_dirs/test
+      --cycle 6 --model work_dirs/test/cycle_6.pth --labeled work_dirs/test/X_L_6.npy
+      --labeled_next work_dirs/test/X_L_7.npy --unselected work_dirs/test/X_U_7.npy
+    deps:
+    - path: work_dirs/test/X_L_6.npy
+      md5: 4667f6dd07f989f0e4c6200b6c490f28
+      size: 38984
+    - path: work_dirs/test/cycle_6.pth
+      md5: 7d553c0c898bd800ec35cfad25d09a19
+      size: 164722773
+    outs:
+    - path: work_dirs/test/X_L_7.npy
+      md5: 755d86f28b9439070b01ddc38fd1e2ea
+      size: 43840
+    - path: work_dirs/test/X_U_7.npy
+      md5: d25279538e2a600b085538c746e20393
+      size: 43840

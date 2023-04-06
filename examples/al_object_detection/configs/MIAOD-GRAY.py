@@ -16,8 +16,11 @@ data = dict(
 )
 model = dict(bbox_head=dict(C=1))
 # The initial learning rate, momentum, weight decay can be changed here.
-optimizer = dict(type='SGD', lr=8*4e-6, momentum=0.9, weight_decay=0.0001)
+optimizer = dict(type='SGD', lr=8e-6, momentum=0.9, weight_decay=0.0001)
+
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
+#optimizer_config = dict(grad_clip=None)
+
 # The moment when the learning rate drops can be changed here.
 lr_config = dict(policy='step', step=[2])
 # The frequency of saving models can be changed here.
@@ -40,7 +43,7 @@ train_cfg = dict(param_lambda = 0.5)
 k = 10000
 # The size of the initial labeled set and the newly selected sets after each cycle can be set here.
 # Note that there are 16551 images in the PASCAL VOC 2007+2012 trainval sets.
-X_S_size = 12150//20#9964//40
+X_S_size = 12150//40#9964//40
 X_L_0_size = 12150//10#9964//20
 # The active learning cycles can be changed here.
 cycles = [0, 1, 2, 3, 4, 5, 6]
