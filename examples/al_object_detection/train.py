@@ -187,8 +187,7 @@ def main():
             cfg.evaluation.interval = cfg.epoch_ratio[0]
         else:
             cfg.lr_config.step = [1000]
-            #cfg.evaluation.interval = 100
-
+            cfg.evaluation.interval = 100
 
 
         cfg = create_X_L_file(cfg, X_L, all_anns, cycle)

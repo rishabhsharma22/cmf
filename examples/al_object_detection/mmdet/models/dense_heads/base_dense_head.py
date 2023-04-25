@@ -73,6 +73,7 @@ class BaseDenseHead(nn.Module, metaclass=ABCMeta):
                 return L_det, proposal_list
         # Re-weighting and minimizing instance uncertainty
         elif losstype.losstype == 1:
+            #print(img_metas)
             outs = ((y_head_f_1, y_head_f_2), y_head_f_r, y_head_cls)
             if y_cls_img is None:
                 loss_inputs = outs + (y_loc_img, img_metas)

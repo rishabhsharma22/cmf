@@ -1,6 +1,5 @@
 # Please change the dataset directory to your actual directory
-#data_root = '/lustre/data/hdcdatasets/'
-data_root = '/mnt/beegfs/PAMS/data/tomography_data/tiled_annotations/'
+data_root = '/lustre/data/hdcdatasets/'
 
 # dataset settings
 dataset_type = 'HDCDataset'
@@ -11,7 +10,8 @@ train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(type='Resize', img_scale=(960, 960), keep_ratio=True),
-    dict(type='RandomFlip', flip_ratio=0.66),#,direction=['horizontal','vertical','diagonal']),
+    dict(type='RandomFlip', flip_ratio=0.5),
+    dict(type='RandomFlip', flip_ratio=0.5, direction='vertical'),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='Pad', size_divisor=32),
     dict(type='DefaultFormatBundle'),
@@ -27,7 +27,8 @@ test_pipeline = [
         flip=False,
         transforms=[
             dict(type='Resize', keep_ratio=True),
-            dict(type='RandomFlip', flip_ratio=0.66),#, direction=['horizontal','vertical','diagonal']),
+            dict(type='RandomFlip', flip_ratio=0.5),
+            dict(type='RandomFlip', flip_ratio=0.5, direction='vertical'),
             dict(type='Normalize', **img_norm_cfg),
             dict(type='Pad', size_divisor=32),
             dict(type='ImageToTensor', keys=['img']),
@@ -35,26 +36,26 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=8,
-    workers_per_gpu=8,
+    samples_per_gpu=2,
+    workers_per_gpu=2,
     train=dict(
         type='RepeatDataset',
-        times=1,#was 3
+        times=3,
         dataset=dict(
             type=dataset_type,
             ann_file=[
-                data_root + 'train.txt'#training set indexes
+                data_root + 'hdc_single/ImageSets/Main/trainval.txt'
             ],
-            img_prefix=[data_root ],
+            img_prefix=[data_root + 'hdc_single/'],
             pipeline=train_pipeline)),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'train_val.txt',#test set indexes
-        img_prefix=data_root,
+        ann_file=data_root + 'hdc_single/ImageSets/Main/test.txt',
+        img_prefix=data_root + 'hdc_single/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'train.txt',#should be same as training
-        img_prefix=data_root ,
+        ann_file=data_root + 'hdc_single/ImageSets/Main/test.txt',
+        img_prefix=data_root + 'hdc_single/',
         pipeline=test_pipeline))
 evaluation = dict(interval=1, metric='mAP')

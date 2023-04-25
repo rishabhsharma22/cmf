@@ -167,6 +167,7 @@ def main():
     if args.strategy is 'active_learning':
         X_L_next, X_U = update_X_L(uncertainty, X_all, X_L, cfg.X_S_size)
     else:
+        print("random strategy")
         X_L_next, X_U = update_X_L_random( X_all, X_L, cfg.X_S_size)
 
     # save next cycle labeled and unlesected lists
